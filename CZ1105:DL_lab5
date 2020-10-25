@@ -1,0 +1,59 @@
+/* #1
+convert*/
+
+always@(posedge clk) begin
+    case(in)
+    4'd0: out=4'h2;
+    4'd1: out=4'h2;
+    4'd2: out=4'h12;
+    4'd3: out=4'h0;
+    4'd4: out=4'h15;
+    4'd5: out=4'h15;
+    4'd6: out=4'h14;
+    4'd7: out=4'h14;
+    4'd8: out=4'h2;
+    4'd9: out=4'h1;
+    4'd10: out=4'h5;
+    4'd11: out=4'h2;
+    4'd12: out=4'h9;
+    4'd13: out=4'h0;
+    4'd14: out=4'h0;
+    4'd15: out=4'h13;
+    endcase
+end
+
+/* #2
+scroll*/
+reg [3:0]count;
+
+always@(posedge clk) begin
+    if(rst or count==4'b1111) count<=4'd0;
+    else count<=count + 1'b1;
+end
+
+/* #3
+scoll*/
+
+wire [3:0]a,b,c,d;
+assign a=count;
+assign b=count+4'd1;
+assign c=count+4'd2;
+assign d=count+4'd3;
+
+
+
+/* #4 
+scoll */
+
+convert A(.in(a),.out(display[15:12]));
+convert B(.in(b),.out(display[11:8]));
+convert C(.in(c),.out(display[7:4]));
+convert D(.in(d),.out(display[3:0]));
+
+
+/* #5
+lab5_top */
+
+scroll(.clk(s_clk),.rst(rst),.display(value));
+slow_clkgen(.clk(clk),.rst(rst),.clk_out(s_clk)); //?? 
+
